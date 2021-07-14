@@ -1,0 +1,5 @@
+development: &non_production_settings
+db_name: ""
+db_host: "localhost"
+db_username: "ruby_dev"
+db_password: "rubydev"

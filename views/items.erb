@@ -1,0 +1,11 @@
+<form action="/items" method="POST">
+    <label>Tambahkan item</label><br/>
+    <input type="text" id="new_item" name="new_item"> 
+    <input type="submit" value="Tambah item">
+</form>
+<h2>List of Items</h2>
+<ul>
+    <% items.each do |item|%>
+        <li><%= item%></li>
+    <% end%>
+</ul>
