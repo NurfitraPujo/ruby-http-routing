@@ -9,6 +9,6 @@ class Item
   end
 
   def to_s
-    "#{@id}. #{@nama} #{@price} #{@category}"
+    "#{@id} #{@nama} #{@price} #{@category}"
   end
 end

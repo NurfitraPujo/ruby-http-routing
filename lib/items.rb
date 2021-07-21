@@ -13,7 +13,7 @@ class Items
     @db_client.query('SELECT * from items order by id')
   end
 
-  def get_categories
+  def get_categories_query
     @db_client.query('SELECT * from categories order by id')
   end
 
@@ -33,7 +33,7 @@ class Items
   end
 
   def query_item_by_id(item_id)
-    @db_client.query("SELECT items.id, items.nama, items.price, c.category
+    @db_client.query("SELECT items.id, items.nama, items.price, c.id as category_id ,c.category
         from items
         left join item_categories ic on items.id = ic.item_id
         left join categories c on ic.category_id = c.id
@@ -69,9 +69,9 @@ class Items
       ")
   end
 
-  def add_item_category(item_data)
+  def add_item_category_query(item_id, category_id)
     @db_client.query("INSERT into item_categories
-        VALUES (#{item_data.id}, #{item_data.category.id})
+        VALUES (#{item_id}, #{category_id})
       ")
   end
 
@@ -117,9 +117,29 @@ class Items
     item
   end
 
+  def get_categories
+    raw_data = get_categories_query
+    categories = []
+    raw_data.each do |data|
+      category = Category.new(data['id'], data['category'])
+      categories << category
+    end
+    categories
+  end
+
+  def update_item_category(item_data)
+    item_has_category = item_has_category_query(item_data.id)
+    if item_has_category.count.zero?
+      add_item_category_query(item_data.id, item_data.category.id)
+    else
+      update_item_category_query(item_data.id, item_data.category.id)
+    end
+  end
+
   def edit_item(item_data)
-    item = Item.new(item_data[:id], item_data[:nama], item_data[:price])
-    update_item_query(item)
+    item_category = Category.new(item_data[:category_id])
+    item = Item.new(item_data[:id], item_data[:nama], item_data[:price], item_category)
+    update_item_category(item) unless item.category.nil?
     get_all_items_with_categories
   end
 
