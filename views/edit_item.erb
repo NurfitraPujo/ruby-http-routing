@@ -1,0 +1,10 @@
+<h2>Edit Item</h2>
+<form action="/item" method="POST">
+    <input type="hidden" name="id" value="<%= item.id%>">
+    <label>Nama</label><br/>
+    <input type="text" id="nama" name="nama" value="<%= item.nama%>"> <br/>
+    <label>Harga</label><br/>
+    <input type="text" id="price" name="price" value="<%= item.price%>"><br/>
+    <br/>
+    <input type="submit" value="Edit item">
+</form>
