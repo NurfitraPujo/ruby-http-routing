@@ -57,6 +57,12 @@ class Items
       ")
   end
 
+  def delete_item_query(item_id)
+    @db_client.query("DELETE from items
+        WHERE items.id = #{item_id}
+      ")
+  end
+
   def item_has_category_query(item_id)
     @db_client.query("SELECT * from item_categories
         WHERE item_id = #{item_id}
@@ -71,7 +77,7 @@ class Items
 
   def update_item_category_query(item_id, category_id)
     @db_client.query("UPDATE item_categories
-        SET
+          SET
           caegory_id = #{category_id}
         WHERE
           items.id = #{item_id}
@@ -115,5 +121,9 @@ class Items
     item = Item.new(item_data[:id], item_data[:nama], item_data[:price])
     update_item_query(item)
     get_all_items_with_categories
+  end
+
+  def delete_item(item_id)
+    delete_item_query(item_id)
   end
 end

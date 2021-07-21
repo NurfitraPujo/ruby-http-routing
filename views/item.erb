@@ -1,3 +1,5 @@
+<a href="/items">< Kembali</a>
+<br/>
 <h2>Detail menu</h2>
 <table>
     <tbody>
@@ -17,6 +19,8 @@
             <td style="text-align:left; font-weight: bold;">Kategori</td>
             <td style="text-align:left"><%= item.category%></td>
         </tr>
-        
     </tbody>
 </table>
+<br/>
+<a href="/item/<%= item.id%>/edit">Edit item</a>
+<a href="/item/<%= item.id%>/delete">Delete item</a>
