@@ -5,6 +5,21 @@
     <input type="text" id="nama" name="nama" value="<%= item.nama%>"> <br/>
     <label>Harga</label><br/>
     <input type="text" id="price" name="price" value="<%= item.price%>"><br/>
+    <label>Kategori</label><br/>
+    <select name="category" id="category">
+        <% if item.category.nil?%>
+            <option value="" selected>Pilih kategori</option>
+            <% categories.each do |category|%>
+                <option value="<%= category.id%>"><%= category.category%></option>
+            <%end%>
+        <% else %>
+            <% categories.each do |category|%>
+                <option value="<%= category.id%>" <%= item.category.id == category.id ? selected : ""%>><%= category.category%></option>
+            <%end%>
+        <% end %>
+        
+    </select>
+    <br/>
     <br/>
     <input type="submit" value="Edit item">
     <a href="/items">Batal edit</a>

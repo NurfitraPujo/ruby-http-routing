@@ -68,8 +68,10 @@ end
 get '/item/:item_id/edit' do
   item_id = params[:item_id]
   item = items_ins.get_item_by_id(item_id)
+  categories = items_ins.get_categories
   erb :edit_item, locals: {
-    item: item
+    item: item,
+    categories: categories
   }
 end
 
@@ -83,10 +85,12 @@ post '/item' do
   id = params[:id]
   nama = params[:nama]
   price = params[:price]
+  category_id = params[:category]
   new_item = {
     id: id,
     nama: nama,
-    price: Integer(price)
+    price: Integer(price),
+    category_id: category_id
   }
   edited_items = items_ins.edit_item(new_item)
   redirect '/items'
