@@ -1,11 +1,31 @@
 <form action="/items" method="POST">
     <label>Tambahkan item</label><br/>
-    <input type="text" id="new_item" name="new_item"> 
+    <input type="text" id="nama" name="nama" placeholder="Nama item"> 
+    <input type="text" id="price" name="price" placeholder="Harga">
     <input type="submit" value="Tambah item">
 </form>
+<br/>
 <h2>List of Items</h2>
-<ul>
-    <% items.each do |item|%>
-        <li><%= item%></li>
-    <% end%>
-</ul>
+<table>
+    <thead>
+        <th style="text-align:left">No</th>
+        <th style="text-align:left">Nama</th>
+        <th style="text-align:left">Harga</th>
+        <th style="text-align:left">Category</th>
+        <th style="text-align:left">Option</th>
+    </thead>
+    <tbody>
+        <% items.each do |item|%>
+            <tr>
+                <td style="text-align:left"><%= item.id%></td>
+                <td style="text-align:left"><%= item.nama%></td>
+                <td style="text-align:right"><%= item.price%></td>
+                <td style="text-align:left"><%= item.category%></td>
+                <td>
+                    <a href="/item/<%= item.id%>">Show Details</a>
+                    <a href="/item/<%= item.id%>/edit">Edit</a>
+                </td>
+            </tr>
+        <% end%>
+    </tbody>
+</table>
