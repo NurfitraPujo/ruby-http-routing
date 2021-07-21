@@ -73,6 +73,12 @@ get '/item/:item_id/edit' do
   }
 end
 
+get '/item/:item_id/delete' do
+  item_id = params[:item_id]
+  items_ins.delete_item(item_id)
+  redirect '/items'
+end
+
 post '/item' do
   id = params[:id]
   nama = params[:nama]
@@ -83,5 +89,11 @@ post '/item' do
     price: Integer(price)
   }
   edited_items = items_ins.edit_item(new_item)
+  redirect '/items'
+end
+
+get '/item/:item_id/delete' do
+  item_id = params[:item_id]
+  items_ins.delete_item(item_id)
   redirect '/items'
 end
