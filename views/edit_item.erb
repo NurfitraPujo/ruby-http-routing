@@ -14,7 +14,11 @@
             <%end%>
         <% else %>
             <% categories.each do |category|%>
-                <option value="<%= category.id%>" <%= item.category.id == category.id ? selected : ""%>><%= category.category%></option>
+                <% if item.category.id == category.id%>
+                    <option value="<%= category.id%>" selected><%= category.category%></option>
+                <% else %>
+                    <option value="<%= category.id%>"><%= category.category%></option>
+                <%end%>
             <%end%>
         <% end %>
         

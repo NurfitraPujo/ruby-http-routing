@@ -99,7 +99,7 @@ class Items
     items = []
     raw_data.each do |data|
       category = Category.new(data['category_id'], data['category'])
-      item = Item.new(data['id'], data['nama'], data['price'], category.category)
+      item = Item.new(data['id'], data['nama'], data['price'], category)
       items << item
     end
     items
@@ -112,7 +112,7 @@ class Items
     raw_data = query_item_by_id(item_id)
     raw_data.each do |data|
       category = Category.new(data['category_id'], data['category'])
-      item = Item.new(data['id'], data['nama'], data['price'], category.category)
+      item = Item.new(data['id'], data['nama'], data['price'], category)
     end
     item
   end
