@@ -1,0 +1,21 @@
+<a href="/categories">< Kembali</a> 
+<h2>List of Category Items</h2>
+<h5>Category: <%= category.category%></h5>
+<table>
+    <thead>
+        <th style="text-align:left">No</th>
+        <th style="text-align:left">Nama</th>
+        <th style="text-align:left">Harga</th>
+    </thead>
+    <tbody>
+        <% category.items.each do |item|%>
+            <tr>
+                <td style="text-align:left"><%= item.id%></td>
+                <td style="text-align:left"><%= item.nama%></td>
+                <td style="text-align:right"><%= item.price%></td>
+            </tr>
+        <% end%>
+    </tbody>
+</table>
+<br/>
+<br/>

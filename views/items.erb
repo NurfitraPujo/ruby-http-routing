@@ -1,17 +1,5 @@
-<form action="/items" method="POST">
-    <label>Tambahkan item</label><br/>
-    <input type="text" id="nama" name="nama" placeholder="Nama item"> 
-    <input type="text" id="price" name="price" placeholder="Harga">
-     <select name="category" id="category">
-        <option value="" selected>Pilih kategori</option>
-        <% categories.each do |category|%>
-            <option value="<%= category.id%>"><%= category.category%></option>
-        <%end%>
-    </select>
-    <input type="submit" value="Tambah item">
-</form>
-<br/>
 <h2>List of Items</h2>
+<a href="/categories">Daftar kategori</a>
 <table>
     <thead>
         <th style="text-align:left">No</th>
@@ -36,3 +24,6 @@
         <% end%>
     </tbody>
 </table>
+<br/>
+<br/>
+<a href="/items/new">Create new item</a>

@@ -1,40 +1,35 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
-require_relative './model/item'
-require_relative './model/category'
+require_relative './controller/item_controller'
+require_relative './controller/category_controller'
 
 get '/' do
   redirect '/items'
 end
 
 get '/items' do
-  items = Item.all
-  categories = Category.all
-  erb :items, locals: {
-    items: items,
+  items_co = ItemController.new
+  # category_co = CategoryController.new
+  # categories = category_co.find_all
+  items_co.find_all
+end
+
+get '/items/new' do
+  category_co = CategoryController.new
+  categories = category_co.find_all
+  erb :add_item, locals: {
     categories: categories
   }
 end
 
 get '/item/:item_id' do
-  item_id = params[:item_id]
-  items = Item.where(column: 'items.id', value: item_id)
-  erb :item, locals: {
-    item: items[0]
-  }
+  items_co = ItemController.new
+  items_co.find_by_id(params[:item_id])
 end
 
 post '/items' do
-  nama = params[:nama]
-  price = params[:price]
-  category_id = params[:category]
-  new_item = {
-    nama: nama,
-    price: Integer(price),
-    category_id: category_id
-  }
-  item = Item.new(new_item)
-  item.save
+  items_co = ItemController.new
+  items_co.create_new(nama: params[:nama], price: params[:price], category_id: params[:category])
   redirect '/items'
 end
 
@@ -49,24 +44,36 @@ get '/item/:item_id/edit' do
 end
 
 post '/item' do
-  id = params[:id]
-  nama = params[:nama]
-  price = params[:price]
-  category_id = params[:category]
-  new_item = {
-    id: id,
-    nama: nama,
-    price: Integer(price),
-    category_id: category_id
-  }
-  Item.update(new_item)
+  items_co = ItemController.new
+  items_co.update(id: params[:id], nama: params[:nama], price: Integer(params[:price]), category_id: params[:category])
   redirect '/items'
 end
 
 get '/item/:item_id/delete' do
-  item_id = params[:item_id]
-  Item.delete(item_id)
+  items_co = ItemController.new
+  items_co.delete(params[:item_id])
   redirect '/items'
+end
+
+get '/categories/new' do
+  category_co = CategoryController.new
+  category_co.creating_new_category
+end
+
+post '/categories' do
+  category_co = CategoryController.new
+  category_co.create_new(category: params[:category])
+  redirect '/items'
+end
+
+get '/categories' do
+  category_co = CategoryController.new
+  category_co.find_all
+end
+
+get '/category/:category_id' do
+  category_co = CategoryController.new
+  category_co.find_all_category_items(params[:category_id])
 end
 
 # get '/item/:item_id/delete' do

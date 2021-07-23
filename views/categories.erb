@@ -1,0 +1,23 @@
+<a href="/items">Daftar items</a>
+
+<h2>List of Categories</h2>
+<table>
+    <thead>
+        <th style="text-align:left">ID</th>
+        <th style="text-align:left">Kategori</th>
+    </thead>
+    <tbody>
+        <% categories.each do |category|%>
+            <tr>
+                <td style="text-align:left"><%= category.id%></td>
+                <td style="text-align:left"><%= category.category%></td>
+                <td>
+                    <a href="/category/<%= category.id%>">Show Items</a>
+                </td>
+            </tr>
+        <% end%>
+    </tbody>
+</table>
+<br/>
+<br/>
+<a href="/categories/new">Create new category</a>
