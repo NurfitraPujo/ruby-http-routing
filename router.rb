@@ -1,84 +1,54 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
-require_relative './lib/items'
-
-items_ins = Items.new
-
-get '/message' do
-  '<h1 style="font-size:24px;">Hello world</h1>'
-end
-
-get '/message/:name' do
-  name = params[:name]
-  color = params[:color] || 'rebeccapurple'
-  erb :message, locals: {
-    color: color,
-    name: name
-  }
-end
-
-get '/login' do
-  erb :login
-end
-
-post '/login' do
-  if params[:username] == 'admin' && params[:password] == 'admin'
-    return 'Logged in'
-  else
-    erb :login
-  end
-end
+require_relative './model/item'
+require_relative './model/category'
 
 get '/' do
-  items = items_ins.get_all_items_with_categories
+  items = Item.all
   erb :items, locals: {
     items: items
   }
 end
 
 get '/items' do
-  items = items_ins.get_all_items_with_categories
+  items = Item.all
+  categories = Category.all
   erb :items, locals: {
-    items: items
+    items: items,
+    categories: categories
   }
 end
 
 get '/item/:item_id' do
   item_id = params[:item_id]
-  item = items_ins.get_item_by_id(item_id)
+  items = Item.where(column: 'items.id', value: item_id)
   erb :item, locals: {
-    item: item
+    item: items[0]
   }
 end
 
 post '/items' do
   nama = params[:nama]
   price = params[:price]
+  category_id = params[:category]
   new_item = {
     nama: nama,
-    price: Integer(price)
+    price: Integer(price),
+    category_id: category_id
   }
-  items_ins.add_item_query(new_item)
-  items = items_ins.get_all_items_with_categories
-  erb :items, locals: {
-    items: items
-  }
+  item = Item.new(new_item)
+  item.save
+  redirect '/items'
 end
 
 get '/item/:item_id/edit' do
   item_id = params[:item_id]
-  item = items_ins.get_item_by_id(item_id)
-  categories = items_ins.get_categories
+  items = Item.where(column: 'items.id', value: item_id)
+  categories = Category.all
   erb :edit_item, locals: {
-    item: item,
+    item: items[0],
     categories: categories
   }
-end
-
-get '/item/:item_id/delete' do
-  item_id = params[:item_id]
-  items_ins.delete_item(item_id)
-  redirect '/items'
 end
 
 post '/item' do
@@ -92,12 +62,18 @@ post '/item' do
     price: Integer(price),
     category_id: category_id
   }
-  edited_items = items_ins.edit_item(new_item)
+  Item.update(new_item)
   redirect '/items'
 end
 
 get '/item/:item_id/delete' do
   item_id = params[:item_id]
-  items_ins.delete_item(item_id)
+  Item.delete(item_id)
   redirect '/items'
 end
+
+# get '/item/:item_id/delete' do
+#   item_id = params[:item_id]
+#   items_ins.delete_item(item_id)
+#   redirect '/items'
+# end

@@ -2,6 +2,12 @@
     <label>Tambahkan item</label><br/>
     <input type="text" id="nama" name="nama" placeholder="Nama item"> 
     <input type="text" id="price" name="price" placeholder="Harga">
+     <select name="category" id="category">
+        <option value="" selected>Pilih kategori</option>
+        <% categories.each do |category|%>
+            <option value="<%= category.id%>"><%= category.category%></option>
+        <%end%>
+    </select>
     <input type="submit" value="Tambah item">
 </form>
 <br/>
@@ -20,7 +26,7 @@
                 <td style="text-align:left"><%= item.id%></td>
                 <td style="text-align:left"><%= item.nama%></td>
                 <td style="text-align:right"><%= item.price%></td>
-                <td style="text-align:left"><%= item.category.category%></td>
+                <td style="text-align:left"><%= item.category%></td>
                 <td>
                     <a href="/item/<%= item.id%>">Show Details</a>
                     <a href="/item/<%= item.id%>/edit">Edit</a>
