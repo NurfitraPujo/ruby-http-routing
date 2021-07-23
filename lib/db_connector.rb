@@ -3,7 +3,7 @@ require 'yaml'
 
 class DatabaseConnection
   def initialize
-    env_config = YAML.load_file('config.yml')
+    env_config = YAML.load_file('./config/database.yml')
     @db_con = Mysql2::Client.new(
       host: env_config['db_host'],
       username: env_config['db_username'],

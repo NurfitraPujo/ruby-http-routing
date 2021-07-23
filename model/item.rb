@@ -135,9 +135,10 @@ class Item
     return false if item_id.nil?
 
     db_client = DatabaseConnection.new
-    db_client.query("DELETE from items
-        WHERE items.id = #{item_id}
-      ")
+    db_client.transaction do
+      db_client.query("DELETE FROM item_categories WHERE item_id = #{item_id}")
+      db_client.query("DELETE FROM items WHERE id = #{item_id}")
+    end
   end
 
   def self.parse_raw(raw_data)

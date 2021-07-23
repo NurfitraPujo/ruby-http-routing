@@ -4,10 +4,7 @@ require_relative './model/item'
 require_relative './model/category'
 
 get '/' do
-  items = Item.all
-  erb :items, locals: {
-    items: items
-  }
+  redirect '/items'
 end
 
 get '/items' do
