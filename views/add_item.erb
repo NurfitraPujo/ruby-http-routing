@@ -1,0 +1,12 @@
+<form action="/items" method="POST">
+    <h2>Tambahkan item</h2>
+    <input type="text" id="nama" name="nama" placeholder="Nama item"> <br/>
+    <input type="text" id="price" name="price" placeholder="Harga"> <br/>
+    <fieldset>
+        <legend>Kategori item</legend>  
+        <% categories.each do |category|%>
+            <input type="checkbox" name="categories[]" value="<%= category.id%>"/><%= category.category%>
+        <% end %>
+    </fieldset><br/><br/>
+    <input type="submit" value="Tambah item">
+</form>

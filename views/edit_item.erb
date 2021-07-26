@@ -5,24 +5,14 @@
     <input type="text" id="nama" name="nama" value="<%= item.nama%>"> <br/>
     <label>Harga</label><br/>
     <input type="text" id="price" name="price" value="<%= item.price%>"><br/>
-    <label>Kategori</label><br/>
-    <select name="category" id="category">
-        <% if item.category.nil?%>
-            <option value="" selected>Pilih kategori</option>
-            <% categories.each do |category|%>
-                <option value="<%= category.id%>"><%= category.category%></option>
-            <%end%>
-        <% else %>
-            <% categories.each do |category|%>
-                <% if item.category.id == category.id%>
-                    <option value="<%= category.id%>" selected><%= category.category%></option>
-                <% else %>
-                    <option value="<%= category.id%>"><%= category.category%></option>
-                <%end%>
-            <%end%>
+    <fieldset>
+        <legend>Kategori item</legend>  
+        <% categories.each do |category|%>
+            <input type="checkbox" name="categories[]" value="<%= category.id%>"
+                <% if item_categories_id.include?(category.id)%> checked="checked" <%end%>
+            /><%= category.category%>
         <% end %>
-        
-    </select>
+    </fieldset><br/><br/>
     <br/>
     <br/>
     <input type="submit" value="Edit item">

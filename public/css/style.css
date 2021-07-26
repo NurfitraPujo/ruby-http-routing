@@ -9,3 +9,7 @@ th,
 td {
   padding: 5px 10px 5px 5px;
 }
+
+input {
+  margin-bottom: 10px;
+}
