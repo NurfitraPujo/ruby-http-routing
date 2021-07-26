@@ -11,7 +11,7 @@ get '/items' do
   items_co = ItemController.new
   # category_co = CategoryController.new
   # categories = category_co.find_all
-  items_co.find_all
+  items_co.all_items
 end
 
 get '/items/new' do
@@ -24,28 +24,31 @@ end
 
 get '/item/:item_id' do
   items_co = ItemController.new
-  items_co.find_by_id(params[:item_id])
+  items_co.item_details(params[:item_id])
 end
 
 post '/items' do
   items_co = ItemController.new
-  items_co.create_new(nama: params[:nama], price: params[:price], category_id: params[:category])
+  items_co.create_new(nama: params[:nama], price: params[:price], categories: params[:categories])
   redirect '/items'
 end
 
 get '/item/:item_id/edit' do
-  item_id = params[:item_id]
-  items = Item.where(column: 'items.id', value: item_id)
-  categories = Category.all
+  items_co = ItemController.new
+  item = items_co.find_by_id(params[:item_id])
+  category_co = CategoryController.new
+  categories = category_co.find_all
+  item_categories_id = item.categories.map(&:id)
   erb :edit_item, locals: {
-    item: items[0],
-    categories: categories
+    item: item,
+    categories: categories,
+    item_categories_id: item_categories_id
   }
 end
 
 post '/item' do
   items_co = ItemController.new
-  items_co.update(id: params[:id], nama: params[:nama], price: Integer(params[:price]), category_id: params[:category])
+  items_co.update(id: params[:id], nama: params[:nama], price: Integer(params[:price]), categories: params[:categories])
   redirect '/items'
 end
 
@@ -63,21 +66,36 @@ end
 post '/categories' do
   category_co = CategoryController.new
   category_co.create_new(category: params[:category])
-  redirect '/items'
+  redirect '/categories'
 end
 
 get '/categories' do
   category_co = CategoryController.new
-  category_co.find_all
+  category_co.show_all_categories
 end
 
 get '/category/:category_id' do
   category_co = CategoryController.new
-  category_co.find_all_category_items(params[:category_id])
+  category_co.show_category_items(params[:category_id])
 end
 
-# get '/item/:item_id/delete' do
-#   item_id = params[:item_id]
-#   items_ins.delete_item(item_id)
-#   redirect '/items'
-# end
+get '/category/:category_id/delete' do
+  category_co = CategoryController.new
+  category_co.delete(params[:category_id])
+  redirect '/categories'
+end
+
+get '/category/:category_id/edit' do
+  category_co = CategoryController.new
+  category = category_co.find_by_id(params[:category_id])
+
+  erb :edit_category, locals: {
+    category: category
+  }
+end
+
+post '/category' do
+  category_co = CategoryController.new
+  category_co.update(id: params[:id], category: params[:category])
+  redirect '/categories'
+end
