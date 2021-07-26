@@ -14,7 +14,11 @@
                 <td style="text-align:left"><%= item.id%></td>
                 <td style="text-align:left"><%= item.nama%></td>
                 <td style="text-align:right"><%= item.price%></td>
-                <td style="text-align:left"><%= item.category%></td>
+                <td style="text-align:left">
+                    <% item.categories.each do |category|%>
+                        <%= category.equal?(item.categories.last) ? category.category : category.category + ', ' %>
+                    <% end %>
+                </td>
                 <td>
                     <a href="/item/<%= item.id%>">Show Details</a>
                     <a href="/item/<%= item.id%>/edit">Edit</a>
