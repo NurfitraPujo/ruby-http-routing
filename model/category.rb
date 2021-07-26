@@ -41,9 +41,14 @@ class Category
     @items << item
   end
 
-  def self.query_categories
+  def self.query_categories(category_id = nil)
+    where_query = ''
+    where_query = "WHERE id = #{category_id}" unless category_id.nil?
+
     db_client = DatabaseConnection.new
-    db_client.query('SELECT id, category from categories')
+    db_client.query("SELECT id, category from categories
+        #{where_query}
+    ")
   end
 
   def self.query_category_items(category_id)
@@ -63,6 +68,32 @@ class Category
     categories[0]
   end
 
+  def self.delete_query(category_id)
+    return false if category_id.nil?
+
+    db_client = DatabaseConnection.new
+    db_client.transaction do
+      db_client.query("DELETE FROM item_categories WHERE category_id = #{category_id}")
+      db_client.query("DELETE FROM categories WHERE id = #{category_id}")
+    end
+  end
+
+  def self.delete(category_id)
+    delete_query(category_id)
+  end
+
+  def self.update(category_data = {})
+    raise ArgumentError if category_data.nil? || category_data[:id].nil? || category_data[:category].nil?
+
+    db_client = DatabaseConnection.new
+    db_client.query("UPDATE categories
+        SET
+          categories.category = '#{category_data[:category]}'
+        WHERE
+          categories.id = #{category_data[:id]}
+      ")
+  end
+
   def self.parse_raw(raw_data)
     categories = []
     raw_data.each do |data|
@@ -74,6 +105,11 @@ class Category
 
   def self.all
     raw_data = query_categories
+    parse_raw(raw_data)
+  end
+
+  def self.where(category_id)
+    raw_data = query_categories(category_id)
     parse_raw(raw_data)
   end
 end
