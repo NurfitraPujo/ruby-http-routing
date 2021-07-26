@@ -17,7 +17,11 @@
         </tr>
         <tr>
             <td style="text-align:left; font-weight: bold;">Kategori</td>
-            <td style="text-align:left"><%= item.category.category%></td>
+            <td style="text-align:left">
+                <% item.categories.each do |category|%>
+                    <%= category.equal?(item.categories.last) ? category.category : category.category + ', ' %>
+                <% end %>
+            </td>
         </tr>
     </tbody>
 </table>
