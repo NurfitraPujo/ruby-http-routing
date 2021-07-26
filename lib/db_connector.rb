@@ -1,7 +1,10 @@
 require 'mysql2'
 require 'yaml'
+require 'singleton'
 
 class DatabaseConnection
+  include Singleton
+
   def initialize
     env_config = YAML.load_file('./config/database.yml')
     @db_con = Mysql2::Client.new(
@@ -40,9 +43,5 @@ class DatabaseConnection
       puts e
       @db_con.query('ROLLBACK')
     end
-  end
-
-  def db_client
-    @db_con
   end
 end
