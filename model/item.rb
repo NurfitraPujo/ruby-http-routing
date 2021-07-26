@@ -37,7 +37,7 @@ class Item
   def save
     return false unless valid?
 
-    db_client = DatabaseConnection.new
+    db_client = DatabaseConnection.instance
     db_client.transaction do
       db_client.query("INSERT INTO items(nama, price) VALUES ('#{@nama}', #{@price})")
       unless @categories.empty?
@@ -64,14 +64,14 @@ class Item
   end
 
   def self.items_query
-    db_client = DatabaseConnection.new
+    db_client = DatabaseConnection.instance
     db_client.query("SELECT items.id, items.nama, items.price as price
         from items
         order by items.id")
   end
 
   def self.item_categories_query(item_id)
-    db_client = DatabaseConnection.new
+    db_client = DatabaseConnection.instance
     db_client.query("SELECT ic.category_id as id, categories.category
         from item_categories ic
         join categories on ic.category_id = categories.id
@@ -82,7 +82,7 @@ class Item
   def self.items_where_query(column, value, operation = nil)
     operation = '=' if operation.nil?
 
-    db_client = DatabaseConnection.new
+    db_client = DatabaseConnection.instance
     db_client.query("SELECT items.id, items.nama, items.price as price
         from items
         WHERE #{column}" + operation + "#{value}
@@ -144,7 +144,7 @@ class Item
   def self.update_item_transaction_query(item_data = {})
     raise ArgumentError if item_data.nil?
 
-    db_client = DatabaseConnection.new
+    db_client = DatabaseConnection.instance
     db_client.transaction do
       update_item_query(db_client, item_data)
       unless item_data[:categories].nil?
@@ -158,7 +158,7 @@ class Item
   def self.delete_item_query(item_id)
     return false if item_id.nil?
 
-    db_client = DatabaseConnection.new
+    db_client = DatabaseConnection.instance
     db_client.transaction do
       db_client.query("DELETE FROM item_categories WHERE item_id = #{item_id}")
       db_client.query("DELETE FROM items WHERE id = #{item_id}")

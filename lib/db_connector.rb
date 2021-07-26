@@ -44,8 +44,4 @@ class DatabaseConnection
       @db_con.query('ROLLBACK')
     end
   end
-
-  def connection
-    @db_con
-  end
 end
