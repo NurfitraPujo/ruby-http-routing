@@ -1,7 +1,10 @@
 require 'mysql2'
 require 'yaml'
+require 'singleton'
 
 class DatabaseConnection
+  include Singleton
+
   def initialize
     env_config = YAML.load_file('config.yml')
     @db_con = Mysql2::Client.new(
@@ -24,7 +27,7 @@ class DatabaseConnection
     puts error
   end
 
-  def db_client
+  def connection
     @db_con
   end
 end
