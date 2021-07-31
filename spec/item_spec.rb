@@ -106,8 +106,39 @@ describe Item do
       end
 
       it 'should return nil when item not found' do
-        tem_db = Item.where(column: 'id', value: 2)[0]
-        expect(item_db).to eq(item)
+        item_db = Item.where(column: 'id', value: 2)[0]
+        expect(item_db).to be_nil
+      end
+    end
+
+    context 'when item_id is not supplied' do
+      it 'should throw ArgumentError' do
+        expect { Item.where(column: 'id', value: nil)[0] }.to raise_error(ArgumentError)
+      end
+    end
+  end
+
+  describe '.update' do
+    before(:each) do
+      @db_client.query('DELETE FROM items')
+      item = Item.new(id: 1, nama: 'test', price: 2000)
+      item.save
+    end
+
+    after(:all) do
+      @db_client.query('DELETE FROM items')
+      @db_client.query('ALTER TABLE items AUTO_INCREMENT = 0')
+    end
+
+    context 'when item_data is given' do
+      it 'should update referenced item if argument is valid' do
+        item_data = {
+          id: 1,
+          nama: 'test_update'
+        }
+        Item.update(item_data)
+        item = Item.where(column: 'id', value: 1)[0]
+        expect(item.nama).to eq(item_data[:nama])
       end
     end
   end
