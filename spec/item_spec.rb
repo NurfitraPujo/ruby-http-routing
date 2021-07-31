@@ -84,4 +84,26 @@ describe Item do
       end
     end
   end
+
+  describe '.where' do
+    before(:each) do
+      @db_client.query('DELETE FROM items')
+      @db_client.query('ALTER TABLE items AUTO_INCREMENT = 0')
+    end
+
+    after(:all) do
+      @db_client.query('DELETE FROM items')
+      @db_client.query('ALTER TABLE items AUTO_INCREMENT = 0')
+    end
+
+    context 'when item_id supplied' do
+      it 'should return item with id that equals to given item_id' do
+        item = Item.new(id: 1, nama: 'test', price: 2000)
+        item.save
+
+        item_db = Item.where(column: 'id', value: item.id)[0]
+        expect(item_db).to eq(item)
+      end
+    end
+  end
 end
