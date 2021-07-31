@@ -2,9 +2,6 @@ require './spec/test_helper'
 require './model/item'
 
 describe Item do
-  before(:each) do
-  end
-
   describe '#valid?' do
     context 'it should return true' do
       it 'should return true given right argument' do
@@ -16,5 +13,9 @@ describe Item do
         expect(item.valid?).to eq(false)
       end
     end
+  end
+
+  describe '#save' do
+      
   end
 end

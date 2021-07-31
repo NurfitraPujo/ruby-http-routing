@@ -1,7 +1,10 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
+require "sinatra/contrib"
 require_relative './controller/item_controller'
 require_relative './controller/category_controller'
+
+config_file '../config/config.yml'
 
 get '/' do
   redirect '/items'

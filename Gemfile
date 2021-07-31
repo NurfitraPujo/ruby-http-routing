@@ -15,3 +15,5 @@ gem "sinatra-contrib", "~> 2.1"
 gem "simplecov", "~> 0.21.2"
 
 gem "config", "~> 3.1"
+
+gem "rubocop", "~> 1.18"

@@ -1,0 +1,12 @@
+development: 
+  db_name: ""
+  db_host: "localhost"
+  db_username: "ruby_dev"
+  db_password: "rubydev"
+  db_schema: "food_oms_db"
+test: 
+  db_name: ""
+  db_host: "localhost"
+  db_username: "ruby_dev"
+  db_password: "rubydev"
+  db_schema: "food_oms_db"
