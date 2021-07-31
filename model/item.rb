@@ -5,7 +5,6 @@ class Item
   attr_accessor :id, :nama, :price, :categories
 
   def initialize(item_data = {})
-
     @id = item_data[:id]
     @nama = item_data[:nama]
     @price = item_data[:price]
@@ -42,6 +41,14 @@ class Item
 
   def to_s
     "#{@id} #{@nama} #{@price} #{@category}"
+  end
+
+  def hash
+    @id.hash ^ @nama.hash ^ @price.hash ^ @categories.hash
+  end
+
+  def ==(other)
+    hash == other.hash
   end
 
   def generate_insert_category_values(item_id)
