@@ -104,6 +104,11 @@ describe Item do
         item_db = Item.where(column: 'id', value: item.id)[0]
         expect(item_db).to eq(item)
       end
+
+      it 'should return nil when item not found' do
+        tem_db = Item.where(column: 'id', value: 2)[0]
+        expect(item_db).to eq(item)
+      end
     end
   end
 end
