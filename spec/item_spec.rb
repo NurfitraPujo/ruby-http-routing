@@ -26,6 +26,10 @@ describe Item do
       @db_client.query('DELETE FROM items')
     end
 
+    after(:all) do
+      @db_client.query('DELETE FROM items')
+    end
+
     context 'it should add item into database if item is valid' do
       it 'should return 1 if item is valid' do
         item = Item.new(id: 1, nama: 'test', price: 2000)
