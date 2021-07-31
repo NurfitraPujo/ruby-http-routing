@@ -37,6 +37,13 @@ describe Item do
         items = Item.all
         expect(items.size).to eq(1)
       end
+
+      it 'should return 0 if item is not valid' do
+        item = Item.new(id: 1, nama: 'test', price: nil)
+        item.save
+        items = Item.all
+        expect(items.size).to eq(0)
+      end
     end
   end
 end
