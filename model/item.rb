@@ -5,7 +5,6 @@ class Item
   attr_accessor :id, :nama, :price, :categories
 
   def initialize(item_data = {})
-    raise ArgumentError, 'Params not valid' unless item_will_created?(item_data)
 
     @id = item_data[:id]
     @nama = item_data[:nama]
@@ -17,14 +16,6 @@ class Item
         @categories << item_category
       end
     end
-  end
-
-  def item_will_created?(item_data)
-    return false if item_data.nil?
-    return false if item_data[:nama].nil?
-    return false if item_data[:price].nil?
-
-    true
   end
 
   def valid?
