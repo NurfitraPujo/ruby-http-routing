@@ -8,7 +8,7 @@ describe Item do
   end
 
   describe '#valid?' do
-    context 'it should return true' do
+    context 'when item is validated' do
       it 'should return true given right argument' do
         item = Item.new(id: 1, nama: 'test', price: 2000)
         expect(item.valid?).to eq(true)
@@ -28,9 +28,10 @@ describe Item do
 
     after(:all) do
       @db_client.query('DELETE FROM items')
+      @db_client.query('ALTER TABLE items AUTO_INCREMENT = 0')
     end
 
-    context 'it should add item into database if item is valid' do
+    context 'when item is saved to persistence' do
       it 'should return 1 if item is valid' do
         item = Item.new(id: 1, nama: 'test', price: 2000)
         item.save
@@ -43,6 +44,43 @@ describe Item do
         item.save
         items = Item.all
         expect(items.size).to eq(0)
+      end
+    end
+  end
+
+  describe '.all' do
+    before(:each) do
+      @db_client.query('DELETE FROM items')
+    end
+
+    after(:each) do
+      @db_client.query('DELETE FROM items')
+      @db_client.query('ALTER TABLE items AUTO_INCREMENT = 0')
+    end
+
+    context 'when called should return items persistence records' do
+      it 'should return 0 when items persistence doesnt have records' do
+        items = Item.all
+        expect(items.size).to eq(0)
+      end
+
+      it 'should return item with expected structure when items persistence have records' do
+        item = Item.new(id: 1, nama: 'test', price: 2000)
+        item.save
+
+        items = Item.all
+        expect(items[0]).to eq(item)
+      end
+
+      it 'should return the same item counts as records counts in items persistence' do
+        item = Item.new(id: 1, nama: 'test', price: 2000)
+        item.save
+
+        item2 = Item.new(id: 2, nama: 'test', price: 2000)
+        item2.save
+
+        items = Item.all
+        expect(items.size).to eq(2)
       end
     end
   end
