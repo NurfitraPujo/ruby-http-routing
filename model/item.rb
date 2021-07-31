@@ -188,6 +188,8 @@ class Item
   end
 
   def self.where(params = {})
+    raise ArgumentError if params[:column].nil? || params[:value].nil?
+
     raw_items_data = items_where_query(params[:column], params[:value], params[:operation])
     parse_raw(raw_items_data)
   end
