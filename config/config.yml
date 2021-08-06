@@ -1,3 +1,9 @@
+production:
+  db_name: ""
+  db_host: "localhost"
+  db_username: "ruby_dev"
+  db_password: "rubydev"
+  db_schema: "food_oms_db"
 development:
   db_name: ""
   db_host: "localhost"
