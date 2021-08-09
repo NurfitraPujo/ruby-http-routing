@@ -1,12 +1,14 @@
 require 'mysql2'
 require 'yaml'
 require 'singleton'
+require 'config'
 
 class DatabaseConnection
   include Singleton
+  @@environtment = 'development'
 
   def initialize
-    env_config = YAML.load_file('./config/database.yml')
+    env_config = YAML.load_file('./config/config.yml')[@@environtment]
     @db_con = Mysql2::Client.new(
       host: env_config['db_host'],
       username: env_config['db_username'],
@@ -17,6 +19,10 @@ class DatabaseConnection
     @db_con.query_options.merge!(symbolize_keys: true)
   rescue Mysql2::Error => e
     print_conn_error(e)
+  end
+
+  def self.test_environtment
+    @@environtment = 'test'
   end
 
   def print_conn_success(host)

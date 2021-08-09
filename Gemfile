@@ -11,3 +11,9 @@ gem "sinatra", "~> 2.1"
 gem "mysql2", "~> 0.5.3"
 
 gem "sinatra-contrib", "~> 2.1"
+
+gem "simplecov", "~> 0.21.2"
+
+gem "config", "~> 3.1"
+
+gem "rubocop", "~> 1.18"
