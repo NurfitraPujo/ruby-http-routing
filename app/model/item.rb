@@ -5,8 +5,6 @@ class Item
   attr_accessor :id, :nama, :price, :categories
 
   def initialize(item_data = {})
-    raise ArgumentError, 'Params not valid' unless item_will_created?(item_data)
-
     @id = item_data[:id]
     @nama = item_data[:nama]
     @price = item_data[:price]
@@ -17,14 +15,6 @@ class Item
         @categories << item_category
       end
     end
-  end
-
-  def item_will_created?(item_data)
-    return false if item_data.nil?
-    return false if item_data[:nama].nil?
-    return false if item_data[:price].nil?
-
-    true
   end
 
   def valid?
@@ -51,6 +41,14 @@ class Item
 
   def to_s
     "#{@id} #{@nama} #{@price} #{@category}"
+  end
+
+  def hash
+    @id.hash ^ @nama.hash ^ @price.hash ^ @categories.hash
+  end
+
+  def ==(other)
+    hash == other.hash
   end
 
   def generate_insert_category_values(item_id)
@@ -190,6 +188,8 @@ class Item
   end
 
   def self.where(params = {})
+    raise ArgumentError if params[:column].nil? || params[:value].nil?
+
     raw_items_data = items_where_query(params[:column], params[:value], params[:operation])
     parse_raw(raw_items_data)
   end
