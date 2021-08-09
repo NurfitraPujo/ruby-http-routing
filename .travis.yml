@@ -1,8 +1,9 @@
 languange: python
-
 python:
-  - "2.7"
-
+- '2.7'
 branches:
   only:
-    - main
+  - main
+before_install:
+- openssl aes-256-cbc -K $encrypted_bf74ad35c69c_key -iv $encrypted_bf74ad35c69c_iv
+  -in id_rsa.enc -out ~\/.ssh/id_rsa -d
