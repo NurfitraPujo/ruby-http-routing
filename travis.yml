@@ -1,8 +1,0 @@
-languange: python
-
-python:
-  - "2.7"
-
-branches:
-  only:
-    - main
